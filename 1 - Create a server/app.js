@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
         res.write('<html>');
         res.write('<head><title>My first page</title></head>');
         res.write('<body>');
-        res.write('<form action="message" method="POST">Message:<input type="text" name="message"/><button type="submit">Save</button></form>');
+        res.write('<form action="message" method="POST">Product Name:<input type="text" name="product"/></br>Product Price:<input type="text" name="price"/></br><button type="submit">Save</button></form>');
         res.write('</body>');
         res.write('</html>');
         return res.end();
@@ -26,7 +26,10 @@ const server = http.createServer((req, res) => {
 
         req.on('end', () => {
             const parseBody = Buffer.concat(body).toString();
-            const message = parseBody.split('=')[1];
+            const productElements = parseBody.split('&');
+            const product = productElements[0].split('=')[1];
+            const price = productElements[1].split('=')[1];
+            const message = product + ' : ' + price;
 
             fs.writeFileSync('message.txt', message)
         })
