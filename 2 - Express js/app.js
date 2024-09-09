@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 
+const userRoutes = require('./routes/user');
+
 app.use(express.urlencoded({extended: true}));
 app.use('/add-product', (req, res, next) => {
     res.send('<form action="/post-product" method="POST">'+
@@ -12,13 +14,10 @@ app.use('/add-product', (req, res, next) => {
 
 app.post('/post-product', (req, res, next) => {
     const product = req.body.title;
-    console.log('product', product)
     fs.writeFileSync('file.txt', product);
     res.redirect('/')
 });
 
-app.use('/', (req, res, next)=> {
-    res.send('<h1>Product List</h1>')
-})
+app.use('/', userRoutes)
 
 app.listen(3000);
