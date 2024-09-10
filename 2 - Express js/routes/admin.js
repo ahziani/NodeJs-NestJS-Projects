@@ -4,7 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 router.get('/add-product', (req, res, next) => {
-    res.render('add-product')
+    res.render('add-product', {
+        pageTitle: 'Add Product Page'
+    })
 })
 
 router.post('/post-product', (req, res, next) => {
