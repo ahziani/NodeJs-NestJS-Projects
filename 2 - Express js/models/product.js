@@ -1,4 +1,4 @@
-const products = [];
+let products = [];
 
 module.exports = class Product {
     constructor(title, price) {
