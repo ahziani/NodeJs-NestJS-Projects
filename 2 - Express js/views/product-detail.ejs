@@ -1,0 +1,12 @@
+<%- include('includes/header') %>
+    <body>
+        <%- include('includes/navbar') -%>
+        <div class="detail text-center container">
+            <h1><%= product.title %></h1>
+            <img class="card-img-top" src="<%= product.image %>" alt="Card image cap" width="200px">
+            <h2>$<%= product.price %></h2>
+            <h2><%= product.description %></h2>
+        </div>
+    </body>
+</html>
+

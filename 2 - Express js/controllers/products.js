@@ -27,6 +27,17 @@ exports.getProducts = (req, res, next) => {
     });
 }
 
+exports.getProduct = (req, res, next) => {
+    const products = Product.fetch();
+    const id = req.params.id;
+    const product = products.find((p) => p.id === id);
+    
+    res.render('product-detail', {
+        pageTitle: 'Product detail',
+        product: product
+    });
+}
+
 exports.removeProduct = (req, res, next) => {
     const id = req.params.id;
     Product.remove(id);
