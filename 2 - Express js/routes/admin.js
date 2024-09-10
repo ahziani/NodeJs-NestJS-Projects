@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
-const path = require('path');
+
+const products = [];
 
 router.get('/add-product', (req, res, next) => {
     res.render('add-product', {
@@ -10,9 +10,13 @@ router.get('/add-product', (req, res, next) => {
 })
 
 router.post('/post-product', (req, res, next) => {
-    const product = req.body.title;
-    fs.writeFileSync('file.txt', product);
+    products.push({
+        name: req.body.title,
+        price: req.body.price
+    });
+    
     res.redirect('/')
 });
 
-module.exports = router;
+exports.router = router;
+exports.products = products;

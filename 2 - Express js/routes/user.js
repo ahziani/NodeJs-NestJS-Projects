@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express();
-const path = require('path')
+
+const adminData = require('./admin');
 
 router.get('/', (req, res, next) => {
     res.render('home', {
-        pageTitle: 'Home Page'
+        pageTitle: 'Home Page',
+        products: adminData.products
     });
 });
 

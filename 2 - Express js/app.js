@@ -11,7 +11,7 @@ const adminRoutes = require('./routes/admin');
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(adminRoutes)
+app.use(adminRoutes.router)
 app.use(userRoutes)
 app.use((req, res) => {
     res.status(404).render('404', {
