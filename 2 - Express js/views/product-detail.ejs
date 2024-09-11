@@ -1,12 +1,11 @@
 <%- include('includes/header') %>
     <body>
         <%- include('includes/navbar') -%>
-        <div class="detail text-center container">
-            <h1><%= product.title %></h1>
-            <img class="card-img-top" src="<%= product.image %>" alt="Card image cap" width="200px">
-            <h2>$<%= product.price %></h2>
-            <h2><%= product.description %></h2>
+        <div class="detail text-center container mb-4">
+            <h1 class="mb-4 mt-4"><%= product.title %></h1>
+            <img class="mb-4" src="<%= product.image %>" alt="Card image cap" width="300">
+            <p class="mb-4">$<%= product.price %></p>
+            <p><%= product.description %></p>
         </div>
     </body>
 </html>
-

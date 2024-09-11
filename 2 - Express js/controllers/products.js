@@ -1,8 +1,9 @@
 const Product = require('../models/product')
 
 exports.addProduct = (req, res, next) => {
-    res.render('add-product', {
-        pageTitle: 'Add Product Page'
+    res.render('save-product', {
+        pageTitle: 'Add Product Page',
+        isEdit: false
     })
 }
 
@@ -18,6 +19,31 @@ exports.postProduct = (req, res, next) => {
     res.redirect('/')
 }
 
+exports.editProduct = (req, res, next) => {
+    const id = req.params.id;
+    const product = Product.findById(id);
+
+    console.log('product', product)
+
+    res.render('save-product', {
+        pageTitle: 'Edit Product Page',
+        isEdit: true
+    })
+}
+
+exports.postEditProduct = (req, res, next) => {
+    console.log('postEditProduct', id)
+    // const title = req.body.name;
+    // const price = req.body.price;
+    // const image = req.body.image;
+    // const description = req.body.description;
+
+    // const product = new Product(title, price, image, description);
+    // product.save();
+
+    // res.redirect('/')
+}
+
 exports.getProducts = (req, res, next) => {
     const products = Product.fetch();
     
@@ -28,9 +54,8 @@ exports.getProducts = (req, res, next) => {
 }
 
 exports.getProduct = (req, res, next) => {
-    const products = Product.fetch();
     const id = req.params.id;
-    const product = products.find((p) => p.id === id);
+    const product = Product.findById(id);
     
     res.render('product-detail', {
         pageTitle: 'Product detail',

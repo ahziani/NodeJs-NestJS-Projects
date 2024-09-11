@@ -13,9 +13,13 @@ module.exports = class Product {
         products.push(this);
     }
 
+    static findById(id) {
+        return products.find(p => p.id === id);
+    }
+
     static fetch() {
         return products;
-    }
+    }    
 
     static remove (id) {
         products = products.filter((product) => product.id !== id)
