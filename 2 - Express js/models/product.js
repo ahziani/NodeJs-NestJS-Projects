@@ -21,7 +21,11 @@ module.exports = class Product {
     }
 
     static findById(id) {
-        return products.find(p => p.id === id);
+        const db = getDB();
+        return db.collection('products').findOne({ _id: new ObjectId(id) })
+        .then(product => {
+            return product;
+        })
     }
 
     static fetch() {

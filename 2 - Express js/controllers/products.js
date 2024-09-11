@@ -22,12 +22,13 @@ exports.postProduct = (req, res, next) => {
 
 exports.editProduct = (req, res, next) => {
     const id = req.params.id;
-    const product = Product.findById(id);
-
-    res.render('save-product', {
-        pageTitle: 'Edit Product Page',
-        isEdit: true,
-        product
+    
+    Product.findById(id).then(product => {
+        res.render('save-product', {
+            pageTitle: 'Edit Product Page',
+            isEdit: true,
+            product
+        })
     })
 }
 
@@ -56,12 +57,12 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
     const id = req.params.id;
-    const product = Product.findById(id);
-    
-    res.render('product-detail', {
-        pageTitle: 'Product detail',
-        product: product
-    });
+    Product.findById(id).then(product => {
+        res.render('product-detail', {
+            pageTitle: 'Product detail',
+            product: product
+        });
+    })
 }
 
 exports.removeProduct = (req, res, next) => {
