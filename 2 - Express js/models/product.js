@@ -1,4 +1,6 @@
 let products = [];
+const { getDB } = require('../util/database')
+const { ObjectId } = require('mongodb')
 
 module.exports = class Product {
     constructor(title, price, image, description) {
@@ -9,8 +11,13 @@ module.exports = class Product {
     }
 
     save() {
-        this.id = Math.random().toString();
-        products.push(this);
+        const db = getDB();
+        return db.collection('products').insertOne(this);
+    }
+
+    static edit(id, updatedProduct) {
+        const index = products.findIndex(p => p.id === id)
+        products[index] = { id, ...updatedProduct };
     }
 
     static findById(id) {
@@ -18,10 +25,15 @@ module.exports = class Product {
     }
 
     static fetch() {
-        return products;
-    }    
+        const db = getDB();
+        return db.collection('products').find().toArray()
+        .then(products => {
+            return products;
+        })        
+    }
 
     static remove (id) {
-        products = products.filter((product) => product.id !== id)
+        const db = getDB();
+        return db.collection('products').deleteOne({ _id: new ObjectId(id) })
     }
 }

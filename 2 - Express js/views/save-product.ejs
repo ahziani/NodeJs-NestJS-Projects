@@ -12,22 +12,22 @@
                       <% }%>
                     </h1>
                     <div class="form-group mb-3">
-                      <label for="name">Name:</label>
-                      <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="<%= isEdit ? product.title : '' %>">
                     </div>
                     <div class="form-group mb-3">
                       <label for="price">Price</label>
-                      <input type="text" class="form-control" id="price" name="price" placeholder="Price">
+                      <input type="text" class="form-control" id="price" name="price" placeholder="Price" value="<%= isEdit ? product.price : '' %>">
                     </div>
                     <div class="form-group mb-3">
                       <label for="price">Image</label>
-                      <input type="text" class="form-control" id="image" name="image" placeholder="Image">
+                      <input type="text" class="form-control" id="image" name="image" placeholder="Image" value="<%= isEdit ? product.image : '' %>">
                     </div>                    
                     <div class="form-group mb-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control" name="description" id="description"></textarea>
+                        <textarea class="form-control" name="description" id="description"><%= isEdit ? product.description : '' %></textarea>
                     </div>
-                    <!-- <input type="hidden" name="idProduct" value=""/> -->
+                    <input type="hidden" name="idProduct" value="<%= isEdit ? product.id : '' %>"/>
                     <button type="submit" class="btn btn-primary">
                       <% if (isEdit) {%>
                         Edit Product

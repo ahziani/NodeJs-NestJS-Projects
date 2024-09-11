@@ -14,7 +14,8 @@ exports.postProduct = (req, res, next) => {
     const description = req.body.description;
 
     const product = new Product(title, price, image, description);
-    product.save();
+    product.save().then((result) => console.log('result', result))
+    .catch(err => console.log('err', err))
 
     res.redirect('/')
 }
@@ -23,34 +24,34 @@ exports.editProduct = (req, res, next) => {
     const id = req.params.id;
     const product = Product.findById(id);
 
-    console.log('product', product)
-
     res.render('save-product', {
         pageTitle: 'Edit Product Page',
-        isEdit: true
+        isEdit: true,
+        product
     })
 }
 
 exports.postEditProduct = (req, res, next) => {
-    console.log('postEditProduct', id)
-    // const title = req.body.name;
-    // const price = req.body.price;
-    // const image = req.body.image;
-    // const description = req.body.description;
+    const id = req.body.idProduct;
 
-    // const product = new Product(title, price, image, description);
-    // product.save();
+    const updatedProduct = {
+        title: req.body.name,
+        price: req.body.price,
+        image: req.body.image,
+        description: req.body.description
+    }
 
-    // res.redirect('/')
+    Product.edit(id, updatedProduct);
+    res.redirect('/')
 }
 
 exports.getProducts = (req, res, next) => {
-    const products = Product.fetch();
-    
-    res.render('home', {
-        pageTitle: 'Home Page',
-        products: products
-    });
+    Product.fetch().then(products => {
+        res.render('home', {
+            pageTitle: 'Home Page',
+            products: products
+        });
+    })    
 }
 
 exports.getProduct = (req, res, next) => {
@@ -65,6 +66,7 @@ exports.getProduct = (req, res, next) => {
 
 exports.removeProduct = (req, res, next) => {
     const id = req.params.id;
-    Product.remove(id);
-    res.redirect('/')
+    Product.remove(id)
+    .then(() => res.redirect('/'))
+    
 }

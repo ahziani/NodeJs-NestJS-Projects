@@ -1,10 +1,13 @@
 const express = require('express');
 const path = require('path')
 const app = express();
-const { get404 } = require('./controllers/error')
+const { get404 } = require('./controllers/error');
+const { mongoConnect } = require('./util/database')
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+
+mongoConnect();
 
 const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');

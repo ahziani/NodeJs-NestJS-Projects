@@ -8,9 +8,9 @@
                 <div class="card-body">
                     <h5 class="card-title"><%= product.title %> - $<%= product.price %></h5>
                     <p class="card-text"><%= product.description %></p>
-                    <a href="/product/<%= product.id %>" class="btn btn-primary">Detail</a>
-                    <a href="/edit-product/<%= product.id %>" class="btn btn-success">Edit</a>
-                    <a href="/remove-product/<%= product.id %>" class="btn btn-danger">Remove</a>
+                    <a href="/product/<%= product._id %>" class="btn btn-primary">Detail</a>
+                    <a href="/edit-product/<%= product._id %>" class="btn btn-success">Edit</a>
+                    <a href="/remove-product/<%= product._id %>" class="btn btn-danger">Remove</a>
                 </div>
             </div>
             <% } %>
