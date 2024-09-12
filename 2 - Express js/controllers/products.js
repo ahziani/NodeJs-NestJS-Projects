@@ -1,75 +1,108 @@
 const Product = require('../models/product')
 
-exports.addProduct = (req, res, next) => {
-    res.render('save-product', {
-        pageTitle: 'Add Product Page',
-        isEdit: false
-    })
-}
+// exports.addProduct = (req, res, next) => {
+//     res.render('save-product', {
+//         pageTitle: 'Add Product Page',
+//         isEdit: false
+//     })
+// }
 
-exports.postProduct = (req, res, next) => {
+exports.postProduct = async (req, res, next) => {
     const title = req.body.name;
     const price = req.body.price;
     const image = req.body.image;
     const description = req.body.description;
 
-    const product = new Product(title, price, image, description);
-
-    product.save().then((result) => {
-        res.redirect('/')
-    })
+    try {
+        const product = new Product(title, price, image, description);
+        await product.save();
+    
+        res.json({
+            message: 'Product Added',
+            product: product
+        })
+    } catch(err) {
+        res.status(500).json({
+            message: 'Error',
+            error: err
+        })
+    }
 }
 
-exports.editProduct = (req, res, next) => {
+// exports.editProduct = async (req, res, next) => {
+//     const id = req.params.id;
+//     const product = await Product.findById(id);
+
+//     res.render('save-product', {
+//         pageTitle: 'Edit Product Page',
+//         isEdit: true,
+//         product
+//     });
+// }
+
+exports.postEditProduct = async (req, res, next) => {
     const id = req.params.id;
     
-    Product.findById(id).then(product => {
-        res.render('save-product', {
-            pageTitle: 'Edit Product Page',
-            isEdit: true,
-            product
+    try {
+        const updatedProduct = {
+            title: req.body.title,
+            price: req.body.price,
+            image: req.body.image,
+            description: req.body.description
+        }
+        await Product.edit(id, updatedProduct);
+    
+        res.json({
+            message: 'Product Updated',
+            product: updatedProduct
         })
-    })
-}
-
-exports.postEditProduct = (req, res, next) => {
-    const id = req.body.idProduct;
-
-    const updatedProduct = {
-        title: req.body.name,
-        price: req.body.price,
-        image: req.body.image,
-        description: req.body.description
+    } catch(err) {
+        res.status(500).json({
+            message: 'Error',
+            error: err
+        })
     }
-
-    Product.edit(id, updatedProduct).then(()=> {
-        res.redirect('/')
-    })
     
 }
 
 exports.getProducts = async (req, res, next) => {
-    const products = await Product.fetch();
-
-    res.render('home', {
-        pageTitle: 'Home Page',
-        products: products
-    });  
+    try {
+        const products = await Product.fetch();
+        res.json(products)
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error',
+            error: err
+        })
+    } 
 }
 
-exports.getProduct = (req, res, next) => {
-    const id = req.params.id;
-    Product.findById(id).then(product => {
-        res.render('product-detail', {
-            pageTitle: 'Product detail',
-            product: product
-        });
-    })
+exports.getProduct = async (req, res, next) => {
+
+    try {
+        const id = req.params.id;
+        const product = await Product.findById(id);
+        res.json(product)
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error',
+            error: err
+        })
+    }
 }
 
 exports.removeProduct = async (req, res, next) => {
     const id = req.params.id;
-    await Product.remove(id);
 
-    res.redirect('/');
+    try {
+        await Product.remove(id);
+        res.json({
+            message: 'Product removed'
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error',
+            error: err
+        })
+    }
 }
