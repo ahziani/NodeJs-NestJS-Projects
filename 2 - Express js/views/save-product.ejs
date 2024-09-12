@@ -27,7 +27,7 @@
                         <label for="description">Description</label>
                         <textarea class="form-control" name="description" id="description"><%= isEdit ? product.description : '' %></textarea>
                     </div>
-                    <input type="hidden" name="idProduct" value="<%= isEdit ? product.id : '' %>"/>
+                    <input type="hidden" name="idProduct" value="<%= isEdit ? product._id : '' %>"/>
                     <button type="submit" class="btn btn-primary">
                       <% if (isEdit) {%>
                         Edit Product

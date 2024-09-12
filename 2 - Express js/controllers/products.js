@@ -14,10 +14,10 @@ exports.postProduct = (req, res, next) => {
     const description = req.body.description;
 
     const product = new Product(title, price, image, description);
-    product.save().then((result) => console.log('result', result))
-    .catch(err => console.log('err', err))
 
-    res.redirect('/')
+    product.save().then((result) => {
+        res.redirect('/')
+    })
 }
 
 exports.editProduct = (req, res, next) => {
@@ -42,17 +42,19 @@ exports.postEditProduct = (req, res, next) => {
         description: req.body.description
     }
 
-    Product.edit(id, updatedProduct);
-    res.redirect('/')
+    Product.edit(id, updatedProduct).then(()=> {
+        res.redirect('/')
+    })
+    
 }
 
-exports.getProducts = (req, res, next) => {
-    Product.fetch().then(products => {
-        res.render('home', {
-            pageTitle: 'Home Page',
-            products: products
-        });
-    })    
+exports.getProducts = async (req, res, next) => {
+    const products = await Product.fetch();
+
+    res.render('home', {
+        pageTitle: 'Home Page',
+        products: products
+    });  
 }
 
 exports.getProduct = (req, res, next) => {
@@ -65,9 +67,9 @@ exports.getProduct = (req, res, next) => {
     })
 }
 
-exports.removeProduct = (req, res, next) => {
+exports.removeProduct = async (req, res, next) => {
     const id = req.params.id;
-    Product.remove(id)
-    .then(() => res.redirect('/'))
-    
+    await Product.remove(id);
+
+    res.redirect('/');
 }

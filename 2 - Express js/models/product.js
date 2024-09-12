@@ -16,24 +16,21 @@ module.exports = class Product {
     }
 
     static edit(id, updatedProduct) {
-        const index = products.findIndex(p => p.id === id)
-        products[index] = { id, ...updatedProduct };
+        const db = getDB();
+        return db.collection('products').updateOne(
+            { _id: new ObjectId(id) },
+            { $set: updatedProduct }
+        )
     }
 
     static findById(id) {
         const db = getDB();
-        return db.collection('products').findOne({ _id: new ObjectId(id) })
-        .then(product => {
-            return product;
-        })
+        return db.collection('products').findOne({ _id: new ObjectId(id) });
     }
 
     static fetch() {
         const db = getDB();
-        return db.collection('products').find().toArray()
-        .then(products => {
-            return products;
-        })        
+        return db.collection('products').find().toArray();       
     }
 
     static remove (id) {
